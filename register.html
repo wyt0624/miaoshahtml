@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link href="static/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+		<link href="static/assets/global/css/components.css" rel="stylesheet" type="text/css"/>
+		<link href="static/assets/admin/pages/css/login.css" rel="stylesheet" type="text/css"/>
+		<script src="static/assets/global/plugins/jquery-1.11.0.min.js"></script>
+	</head>
+	<body>
+		<div class="login">
+			<div class="content">
+				<h3>注册</h3>
+				<div class="form-group">
+					<label class="control-label">手机号</label>
+					<input class="form-control"  placeholder="手机号" type="text" id="telephone" name="telephone"/>
+				</div>
+				<div class="form-group">
+					<label class="control-label">验证码</label>
+					<input  class="form-control" placeholder="验证码" type="text" id="otpCode" name="otpCode"/>
+				</div>
+				<div class="form-group">
+					<label class="control-label">姓名</label>
+					<input class="form-control"  placeholder="姓名" type="text" id="name" name="name"/>
+				</div>
+				<div class="form-group">
+					<label class="control-label">性别</label>
+					<input class="form-control"  placeholder="性别" type="text" id="gender" name="gender"/>
+				</div>
+				<div class="form-group">
+					<label class="control-label">年龄</label>
+					<input class="form-control"  placeholder="年龄" type="text" id="age" name="age"/>
+				</div>
+				<div class="form-group">
+					<label class="control-label">密码</label>
+					<input class="form-control"  placeholder="密码" type="password" id="password" name="password"/>
+				</div>
+				<div  class="form-actions">
+					<button class="btn blue" type="submit" id="regist">提交</button>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		jQuery(document).ready(function(){
+			$("#regist").on("click",function(){
+				var telephone = $("#telephone").val();
+				var otpCode = $("#otpCode").val();
+				var gender = $("#gender").val();
+				var age = $("#age").val();
+				var name = $("#name").val();
+				var password = $("#password").val();
+				if(telephone == null || telephone==""||
+				otpCode == null || otpCode==""||
+				gender == null || gender==""||
+				age == null || age==""||
+				password == null || password==""){
+					alert("请重新输入注册信息！！！")
+				} else {
+					myajax = $.ajax({
+						type:"POST",
+						contentType:"application/x-www-form-urlencoded",
+						url:"http://localhost:8090/user/register",
+						data:{
+							"telephone":telephone,
+							"otpCode":otpCode,
+							"gender":gender,
+							"age":age,
+							"password":password,
+							"name":name,
+						},
+						xhrFields:{withCredentials:true},
+						dataType: 'json',
+						success:function(data){
+							console.log(data);
+							if(data.status == "success"){
+								alert("注册成功");
+							} else if(data.status == "fail") {
+								alert("注册失败，原因为" + data.data.errMsg);
+							}
+						},
+						error:function(data){
+							alert("注册失败，原因为" + data.data.errMsg);
+						}
+					});
+				}
+			});
+		})
+	</script>
+</html>
