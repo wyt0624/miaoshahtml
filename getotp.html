@@ -42,8 +42,9 @@
 						success:function(data){
 							if(data.status == "success"){
 								alert("otp短信已经发送到你的手机");
+								window.location.href="register.html";
 							} else if(data.status == "fail") {
-								alert("发送失败，原因为" + data.responseText);
+								alert("发送失败，原因为" + data.data.errMsg);
 							}
 						},
 						error:function(data){
